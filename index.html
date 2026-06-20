@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relationship Intelligence Desk — Demo</title>
+<style>
+  :root{--navy:#16324f;--ink:#1f2933;--muted:#5b6672;--line:#e6e9ee;--bg:#f6f7f9;
+    --teal:#1f7a6d;--green:#2e7d4f;--red:#b4322a;--amber:#b9791d;--card:#fff;--gold:#A87D4E;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-size:17px;line-height:1.5;color:var(--ink);background:var(--bg);}
+  header{background:var(--navy);color:#fff;padding:18px 24px;}
+  header .t{font-size:21px;font-weight:600;}
+  header .s{opacity:.85;font-size:14px;margin-top:2px;}
+  .demo-flag{background:#fef6e7;border-bottom:1px solid #f0e0bf;color:#7a5b16;
+    font-size:13px;padding:7px 24px;text-align:center;}
+  .wrap{max-width:880px;margin:0 auto;padding:22px 18px 40px;}
+  .lead{font-size:18px;margin:2px 0 18px;}
+  .band{display:flex;gap:11px;flex-wrap:wrap;margin:4px 0 20px;}
+  .tile{flex:1;min-width:140px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+  .tile .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+  .tile .n{font-size:23px;font-weight:600;margin-top:3px;}
+  .tile .sub{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .who{font-size:14px;color:var(--muted);margin-bottom:16px;}
+  .who a{color:var(--teal);font-weight:600;cursor:pointer;text-decoration:underline;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+  .row{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;}
+  .co{font-size:19px;font-weight:600;color:var(--navy);}
+  .money{font-size:13.5px;color:var(--muted);}
+  .why{color:var(--muted);font-size:15.5px;margin:8px 0 0;}
+  .badge{display:inline-block;padding:4px 11px;border-radius:999px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;}
+  .b-red{background:var(--red)}.b-amber{background:var(--amber)}.b-gray{background:#6b7280}
+  .b-dark{background:#3a3f47}.b-green{background:var(--green)}.b-teal{background:var(--teal)}
+  .btn{border:0;border-radius:9px;padding:11px 18px;font-size:15.5px;font-weight:600;cursor:pointer;}
+  .btn-open{background:var(--navy);color:#fff;margin-top:14px;}
+  .btn-primary{background:var(--green);color:#fff;}.btn-light{background:#eef1f4;color:var(--ink);}
+  .btn-warn{background:#f3ede0;color:var(--amber);}.btn-quiet{background:#f4eceb;color:var(--red);}
+  .panel{margin-top:14px;border-top:1px solid var(--line);padding-top:14px;display:none;}
+  .panel.open{display:block;}
+  textarea{width:100%;min-height:230px;font-size:15px;line-height:1.55;padding:14px;border:1px solid var(--line);border-radius:9px;font-family:inherit;}
+  .note{background:#eef6f4;border:1px solid #cde8e2;color:#13524a;padding:11px 14px;border-radius:9px;font-size:14px;margin:12px 0;}
+  .reasons{margin:6px 0 0;padding-left:18px;}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .status{font-size:13px;font-weight:600;color:var(--green);margin-left:8px;}
+  footer{max-width:880px;margin:0 auto;padding:18px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);text-align:center;}
+  footer b{color:var(--gold);}
+</style>
+</head>
+<body>
+<header>
+  <div class="t">Relationship Intelligence Desk</div>
+  <div class="s">Your follow-ups, ready for your review. Nothing sends without you.</div>
+</header>
+<div class="demo-flag">Interactive demo with illustrative sample data. Approving copies a draft to your clipboard; nothing is ever sent.</div>
+<div class="wrap">
+  <div class="lead">Good morning, Dave. Here is your queue, most urgent first.</div>
+  <div class="band" id="band"></div>
+  <div class="who" id="who"></div>
+  <div id="queue"></div>
+</div>
+<footer>Prepared by <b>Total Control Consulting</b> for Dave Waldman &middot; illustrative demo</footer>
+
+<script>
+const OPPS = [
+ {id:1,co:"Summit Ridge Veterinary Partners",seg:"veterinary",val:480000,dl:18,status:"active",
+  why:["Documents still not uploaded and the refund window closes in 18 days.","Estimated $480,000 at stake."],
+  draft:`Good morning Sandra,\n\nI trust all is well. Please forgive my professional persistence, but we have a filing deadline approaching in the next few weeks for what looks like a sizable payroll tax opportunity for Summit Ridge. When you have a moment, could you upload the 2022-2024 ADP Annual SOD Summaries to our secure ShareFile link? It typically takes about 15 minutes to gather. We have ample time to protect these benefits if we move in the next day or two.\n\nthanks,\nDave Waldman`},
+ {id:2,co:"Harbor Point Bancorp",seg:"banking",val:320000,dl:70,status:"active",
+  why:["Engagement letter sent 13 days ago and still unsigned.","Estimated $320,000 at stake."],
+  draft:`Good afternoon Amir,\n\nI hope all is well. Circling back on the contingency-based agreement I sent for your review and signature. No rush at all, just let me know if you have any questions. Otherwise, feel free to return the signed agreement for countersignature when ready, and we will get the analysis underway.\n\nthanks,\nDave Waldman`},
+ {id:3,co:"Coastline Fuel & Markets",seg:"oil_gas",val:265000,dl:110,status:"dormant",
+  why:["No reply in 38 days; this prospect has gone quiet.","Dormant, but the opportunity is still live."],
+  draft:`Good morning Michelle,\n\nI trust all is well both personally and professionally. Circling back on my contingency-based payroll tax review proposal for Coastline tied to your acquisitions since 2022. Based on the acquisition activity, I am confident there are unidentified employer-paid payroll tax refunds worth a closer look. All we would need to begin is your 2022-2025 ADP Annual SOD Summaries. Would a brief 15 to 20 minute call make sense?\n\nthanks,\nDave Waldman`},
+ {id:4,co:"Brightway Animal Hospitals",seg:"veterinary",val:350000,dl:160,status:"dormant",
+  why:["Prior client with a new acquisition this year, and the thread has gone quiet.","Prior-client reactivation, the cheapest pipeline there is."],
+  draft:`Good morning Karen,\n\nI hope all is well, and congratulations on the Cedar Paw acquisition. You may recall our successful work together at Brightway, where we recovered a meaningful amount in previously unclaimed payroll tax refunds. With the recent acquisition and the onboarding of new employees, there are very likely new refund opportunities to capture. Our core team remains unchanged, and the review is the same light lift as before. Could we set up a short call?\n\nthanks,\nDave Waldman`},
+ {id:5,co:"Apex Components Manufacturing",seg:"manufacturing",val:190000,dl:140,status:"active",
+  why:["Call held 16 days ago with no movement since.","Post-call follow-up is overdue."],
+  draft:`Good afternoon Joe,\n\nThanks again for taking the time to discuss the employer-paid payroll tax opportunities for Apex stemming from your M&A activity. As a reminder, our review complements your existing providers, does not duplicate efforts, and is a light lift of roughly 2 to 5 hours. Our 33 1/3% fee is invoiced only after Apex receives funds. I have attached the agreement and a couple of testimonials. Happy to answer any questions.\n\nthanks,\nDave Waldman`},
+ {id:6,co:"Cedar Health Group",seg:"healthcare",val:230000,dl:95,status:"active",
+  why:["Replied 3 days ago pushing back on the 33% fee.","The ball is in your court on the fee question."],
+  draft:`Good afternoon Dana,\n\nI appreciate the candor on fees. The specialized payroll and unemployment tax work we do is different from commodity reviews where dozens of firms compete on price, and our 30 year track record reflects that. That said, I want to find a win-win. I can offer an aggressive sliding scale of 30% on the first portion, 27% on the next, and 25% on all recoveries thereafter. The engagement remains fully contingency-based, so there is no fee unless Cedar Health receives funds. Shall we shake hands and move forward?\n\nthanks,\nDave Waldman`},
+ {id:7,co:"Legacy Trust Bank",seg:"banking",val:410000,dl:-45,status:"dead",
+  why:["The refund window already expired. Close gracefully and preserve the relationship.","This is exactly the loss the system is built to prevent."],
+  draft:`Good morning Tom,\n\nI heard back regarding the review. While the refunds I had anticipated were indeed present, they unfortunately expired last year due to the three-year filing statute. Had we connected earlier in the year, we would have been able to preserve them. I sincerely appreciate the chance to take a close look, and I would welcome the opportunity to reconnect on any future acquisitions so we can act in time. Wishing you and the team well.\n\nthanks,\nDave Waldman`},
+];
+let USER = "owner"; // owner | vet
+function fmt(n){return "$"+n.toLocaleString();}
+function dlBadge(d){ if(d<0)return '<span class="badge b-dark">window expired</span>';
+  if(d<=30)return '<span class="badge b-red">deadline in '+d+' days</span>';
+  if(d<=90)return '<span class="badge b-amber">deadline in '+d+' days</span>';
+  return '<span class="badge b-gray">deadline in '+d+' days</span>';}
+function visible(){return USER==="vet"?OPPS.filter(o=>o.seg==="veterinary"):OPPS;}
+function renderBand(){
+  const v=visible(), active=v.filter(o=>o.status!=="dead");
+  const closing=active.filter(o=>o.dl>=0&&o.dl<=30), dormant=active.filter(o=>o.status==="dormant");
+  const expired=v.filter(o=>o.dl<0);
+  const sum=a=>a.reduce((s,o)=>s+o.val,0);
+  const tiles=[
+   ["Needs attention",active.length,"active opportunities","var(--navy)"],
+   ["Deadlines &lt; 30 days",closing.length,fmt(sum(closing))+" at stake","var(--red)"],
+   ["Dormant to revive",dormant.length,fmt(sum(dormant)),"var(--teal)"],
+  ];
+  if(expired.length)tiles.push(["Lost to expiry",expired.length,fmt(sum(expired)),"#3a3f47"]);
+  document.getElementById("band").innerHTML=tiles.map(t=>
+   `<div class="tile"><div class="l">${t[0]}</div><div class="n" style="color:${t[3]}">${t[1]}</div><div class="sub">${t[2]}</div></div>`).join("");
+}
+function renderWho(){
+  document.getElementById("who").innerHTML = USER==="owner"
+   ? 'Viewing as <b>Dave Waldman</b> (owner, sees all accounts). <a onclick="setUser(\'vet\')">Switch to a veterinary-scoped teammate</a>'
+   : 'Viewing as <b>Jordan Vega</b> (teammate, veterinary accounts only). <a onclick="setUser(\'owner\')">Switch back to Dave</a>';
+}
+function setUser(u){USER=u;render();}
+function toggle(id){document.getElementById("p"+id).classList.toggle("open");}
+function approve(id){
+  const t=document.getElementById("t"+id);
+  if(navigator.clipboard)navigator.clipboard.writeText(t.value);
+  document.getElementById("st"+id).textContent="Approved and copied. Paste into Outlook to send.";
+}
+function mark(id,msg){document.getElementById("st"+id).textContent=msg;}
+function renderQueue(){
+  document.getElementById("queue").innerHTML=visible().map(o=>`
+   <div class="card">
+     <div class="row"><div><div class="co">${o.co}</div><div class="money">${fmt(o.val)} estimated</div></div>
+       <div>${dlBadge(o.dl)}</div></div>
+     <div class="why">Why now: ${o.why[0]}</div>
+     <button class="btn btn-open" onclick="toggle(${o.id})">Open &amp; review &rarr;</button>
+     <div class="panel" id="p${o.id}">
+       <div class="note">This is a draft in your voice. <b>Approve &amp; copy</b> puts it on your clipboard so you paste it into Outlook and send it yourself. Nothing is sent automatically.</div>
+       <ul class="reasons">${o.why.map(w=>`<li>${w}</li>`).join("")}</ul>
+       <textarea id="t${o.id}">${o.draft}</textarea>
+       <div class="actions">
+         <button class="btn btn-primary" onclick="approve(${o.id})">&#10003; Approve &amp; copy</button>
+         <button class="btn btn-warn" onclick="mark(${o.id},'Snoozed for 7 days.')">Snooze</button>
+         <button class="btn btn-quiet" onclick="mark(${o.id},'Marked not a fit.')">Not a fit</button>
+         <span class="status" id="st${o.id}"></span>
+       </div>
+     </div>
+   </div>`).join("");
+}
+function render(){renderBand();renderWho();renderQueue();}
+render();
+</script>
+</body>
+</html>
